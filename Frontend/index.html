@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="mystill.css">
+<script>
+
+var update_motor_speed_flag = true;
+
+function Period_Func(){
+	Get_Tel_status();
+}
+
+function Get_Tel_status(){
+	
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			
+			var msg = this.responseText;
+
+			var tel = JSON.parse( msg );
+			// Data has been taken. Now process it
+			
+			
+			console.log(JSON.stringify(tel))
+
+			var left_offset = tel.motor_cur_pos;
+			
+			console.log(left_offset);
+			
+			left_offset = Math.abs(left_offset/100)%80;
+			
+			document.getElementById("tel_img").style.left = left_offset + "%";
+			document.getElementById("current_motor_speed").innerHTML = "Current Speed: " + tel.motor_speed;
+			document.getElementById("current_motor_en_dis").innerHTML = "Motor is : " + tel.motor_is_en_dis;
+			
+			/*
+			{"weight":"on","motor_cur_pos":"19886","motor_is_en_dis":"enabled","motor_speed":"99","res_2":"reserved","res_3":"reserved","res_4":"reserved","res_5":"reserved"}
+			*/
+			
+			if( update_motor_speed_flag == true){
+				update_motor_speed_flag = false;
+				
+				document.getElementById("motor_speed").value = tel.motor_speed;
+			}
+			
+			if( tel.weight == "on" && tel.motor_is_en_dis == "enabled"){
+			 //   var motor_dis_status = confirm('Heavy Load!');
+			 //   if( motor_dis_status == true ){
+			 //       Send_Command_Ajax('motor_stop');
+			 //       console.log("OK basildi");
+			 //   }
+			 Send_Command_Ajax('motor_stop');
+			 alert("Heavy LOAD!");
+			 
+			}
+			
+			
+			//Ajax data Process finished
+		}
+	};
+	xmlhttp.open("GET", "ajax_resp.php?q=" + "get_rasp_status", true);
+	xmlhttp.send();
+
+}
+
+
+function Send_Command_Ajax( command){
+
+
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			
+			var msg = this.responseText;
+			//window.alert(msg);
+		}
+	};
+	xmlhttp.open("GET", "set_db_data.php?" + command, true);
+	xmlhttp.send();
+
+
+}
+
+</script>
+
+</head>
+
+<body onload="setInterval(Period_Func, 500);">
+
+<body background= "background.jpg" >
+<h1 align="center">CABLE CAR PROJECT'S CONTROL PANEL</h1>
+<div class="body">
+	<div class="renk">
+    <bsk1>LED CONTROL PANEL</bsk1>
+    <ul class="ulclass">
+     <li class="liclassred"><input style="width:100px;height:50px;" type="submit" value="  RED ON   " name="redon" onclick="Send_Command_Ajax('redon')"></li>
+     <li class="liclassred"><input style="width:100px;height:50px;" type="submit" value="  RED OFF  " name="redoff" onclick="Send_Command_Ajax('redoff')"></li>
+     <li class="liclassgreen"><input style="width:100px;height:50px;" type="submit" value="GREEN ON " name="greenon" onclick="Send_Command_Ajax('greenon')"></li>
+     <li class="liclassgreen"><input style="width:100px;height:50px;" type="submit" value="GREEN OFF" name="greenoff" onclick="Send_Command_Ajax('greenoff')"></li>
+	 <li class="liclassblue"><input style="width:100px;height:50px;" type="submit" value=" BLUE ON   " name="blueon" onclick="Send_Command_Ajax('blueon')"></li>
+	 <li class="liclassblue"><input style="width:100px;height:50px;" type="submit" value=" BLUE OFF  " name="blueoff" onclick="Send_Command_Ajax('blueoff')"></li>
+    </ul>
+	</div>
+    
+<div class="motor">
+<bsk2>MOTOR CONTROL </bsk2>
+<ul class="ulclass">
+<li class="liclass"><input style="width:100px;height:35px;"type="submit" value="Motor Start" name="motor_start" onclick="Send_Command_Ajax('motor_start')"></li>
+<li class="liclass"><input style="width:100px;height:35px;" type="submit" value="Motor Stop" name="motor_stop" onclick="Send_Command_Ajax('motor_stop')"></li>
+<li class="liclass"><input style="width:100px;height:35px;" type="submit" value="Forward  " name="dir_forward" onclick="Send_Command_Ajax('dir_forward')"></li>
+<li class="liclass"><input style="width:100px;height:35px;" type="submit" value="Backward " name="dir_backward" onclick="Send_Command_Ajax('dir_backward')"></li>
+</ul>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<div style="text-align: center;">
+<form action="/set_db_data.php">
+<input style="width: 50%;  padding: 12px 20px;  margin: 8px 0;  box-sizing: border-box;  border: 2px solid blue;  border-radius: 4px;" placeholder="Motor Speed" type="number" id="motor_speed" name="motor_speed" value="" min="1" max="100">
+<br>
+<input style="background-color: #4CAF50;  border: none;  color: white;  padding: 16px 32px;  text-decoration: none;  margin: 4px 2px;  cursor: pointer;" type="submit" value="Set Motor Speed">
+<br>
+</form>
+</div>
+
+  
+
+<div style="text-align: center;">
+<ul>
+<li><h3 id="current_motor_speed">Speed motor: 56</h3></li>
+<li><h3 id="current_motor_en_dis">Motor is enabled</h3></li>
+</ul>
+</div>
+
+
+
+
+</div>
+</div>
+
+<div style="height: 110px; width: 100%; background-color:green; position: relative;">
+	<div id="tel_img" style="position:absolute;top:15%; left: 2.5%;">
+		<img src="tel.png">
+	</div>
+</div>
+
+<br><br><br>
+
+</body>
+</html>

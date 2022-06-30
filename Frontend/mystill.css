@@ -1,0 +1,43 @@
+@charset "utf-8";
+.body{width:800px;height:600px;margin:10px auto;border-style:dotted;border-right-style:ridge;border-bottom-style:groove;border-left-style:ridge;border-top-style:groove;}
+
+.renk{width:400px;height:600px;border-right-style:double; float:left;}
+
+.motor{width:395px;height:595px;float:left;}
+
+.ulclass{margin: 100px 100px 100px 100px;list-style-type:none;}
+
+.liclass{margin: 10px 10px 10px 10px; float:left; box-shadow: 0.5em -0.5em 0.4em red, 0.5em 0.5em 0.4em gold, -0.5em 0.5em 0.4em lime, -0.5em -0.5em 0.4em blue;}
+
+.liclassred{margin: 10px 10px 10px 10px; float:left; box-shadow: 0 0 1em red;}
+.liclassgreen{margin: 10px 10px 10px 10px; float:left; box-shadow: 0 0 1em green;}
+.liclassblue{margin: 10px 10px 10px 10px; float:left; box-shadow: 0 0 1em blue;}
+
+.ulclass1{margin: 30px 50px 50px 50px;list-style-type:none;float:left;}
+
+.liclass1{padding:10px 10px 10px 10px; float:left;box-shadow: 3px 3px 4px #660000;}
+bsk1{
+    font:bold 20px Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+    color: #CFF;
+    background: #96F;
+    text-shadow: 1px 1px 6px #FF9933;
+    padding:10px;
+	text-align:center;
+	float:left;
+	width:379px;
+	height:auto;
+}
+bsk2{
+    font:bold 20px Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
+    color: #fff;
+    background: #000;
+    text-shadow: 1px 1px 6px #fff;
+    padding:10px;
+	float:left;
+	text-align:center;
+	width:378px;
+	height:23px;
+}
+
+
+
